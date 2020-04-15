@@ -3,6 +3,35 @@ use prec_mod
 contains
 
 
+function solve_triangle(A, B, n) result(X)
+    implicit none
+    real(mp) :: A(n,n), B(n), X(n), AB(n,n+1)
+    integer :: n, i
+
+    X(:) = 0
+    AB = merge(A, B, n)
+    AB = up_triangle(AB, n)
+    !write(*,*) (AB(i, :), new_line('c'), i = 1,n)
+    do i = n, 1, -1 
+        X(i) = AB(i,n+1) - sum( X(:)*AB(i,1:n) )
+    end do
+end function
+
+
+function solve_diagonal(A, B, n) result(X)
+    implicit none
+    real(mp) :: A(n,n), B(n), X(n), AB(n,n+1)
+    integer :: n, i
+
+    AB = merge(A, B, n)
+    AB = up_triangle(AB, n)
+    AB = down_triangle(AB, n)
+    do i = 1, n
+        X(i) = AB(i,n+1)
+    end do
+end function
+
+
 function merge(A, B, n) result(AB)
     implicit none
     real(mp) :: A(n,n), B(n), AB(n,n+1)
@@ -39,7 +68,7 @@ recursive function down_triangle(AB, n) result(ABr)
     real(mp) :: AB(n,n+1), ABr(n,n+1), AB_step(n-1,n), AB_res(n-1,n)
     integer :: n, i
 
-    AB(:,:) = make_last_nonzero(AB, n)
+    ! AB(:,:) = make_last_nonzero(AB, n)
     AB(n,:) = AB(n,:) / AB(n,n)
 
     do i = n-1, 1, -1
@@ -76,21 +105,21 @@ function make_first_nonzero(AB, n) result (ABr)
 end function
 
 
-function make_last_nonzero(AB, n) result (ABr)
-    implicit none
-    real(mp) :: AB(n,n+1), ABr(n,n+1), X(n)
-    integer :: n, i
+! function make_last_nonzero(AB, n) result (ABr)
+!     implicit none
+!     real(mp) :: AB(n,n+1), ABr(n,n+1), X(n)
+!     integer :: n, i
 
-    do i = n, 1, -1
-        if(AB(i,n) /= 0) then
-            X(:) = AB(n,:)
-            AB(n,:) = AB(i,:)
-            AB(i,:) = X(:)
-            exit
-        end if
-    end do
-    ABr = AB
-end function
+!     do i = n, 1, -1
+!         if(AB(i,n) /= 0) then
+!             X(:) = AB(n,:)
+!             AB(n,:) = AB(i,:)
+!             AB(i,:) = X(:)
+!             exit
+!         end if
+!     end do
+!     ABr = AB
+! end function
 
 
 end module
