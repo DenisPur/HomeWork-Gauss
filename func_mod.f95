@@ -2,7 +2,6 @@ module func_mod
 use prec_mod
 contains
 
-
 function solve_wichmax(A, B, n) result(X)
     implicit none
     real(mp) :: A(n,n), B(n), AB_Logs(0:n,1:n+1), X(n)
