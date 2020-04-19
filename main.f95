@@ -17,14 +17,15 @@ use prec_mod
     B(:) = (/7, 7, 7/)
 
     AB = merge(A, B, 3)
-
     write(*,*) (AB(i, :), new_line('c'), i = 0,n)
 
     call make_up_triangle(AB, n)
-
     write(*,*) (AB(i, :), new_line('c'), i = 0,n)
 
     call make_down_triangle(AB, n)
+    write(*,*) (AB(i, :), new_line('c'), i = 0,n)
 
+    AB = merge(A, B, 3)
+    call make_up_triangle_with_leader(AB, n)
     write(*,*) (AB(i, :), new_line('c'), i = 0,n)
 end program

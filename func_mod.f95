@@ -52,6 +52,39 @@ subroutine make_nonzero(AB, n, s1, s2)
     return
 end subroutine
 
+subroutine make_max(AB, n, s1, s2)
+    implicit none
+    real(mp) :: AB(0:n, 1:n+1)
+    integer :: n, s1, s2, p, q, i, j, max
+    max = 0
+    do i = s1, n
+        do j = s2, n
+            if(abs(AB(i,j)) > max) then
+                p = i
+                q = j
+            end if
+        end do
+    end do
+    call move_pq(AB, n, p, q, s1, s2)
+    return
+end subroutine
+
+subroutine make_up_triangle_with_leader(AB, n)
+    implicit none
+    real(mp) :: AB(0:n, 1:n+1)
+    integer :: s, p, n
+
+    do s = 1, n-1
+        call make_max(AB, n, s, s)
+        AB(s, s:n+1) = AB(s, s:n+1) / AB(s,s)
+        do p = s+1, n
+            AB(p, s:n+1) = AB(p, s:n+1) - AB(s, s:n+1) * AB(p,s)
+        end do
+    end do
+    AB(n, n:n+1) = AB(s, n:n+1) / AB(n,n)
+    return
+end subroutine 
+
 subroutine make_up_triangle(AB, n)
     implicit none
     real(mp) :: AB(0:n, 1:n+1)
@@ -69,6 +102,7 @@ subroutine make_up_triangle(AB, n)
 end subroutine
 
 subroutine make_down_triangle(AB, n)
+    implicit none
     real(mp) :: AB(0:n, 1:n+1)
     integer :: s, p, n
 
