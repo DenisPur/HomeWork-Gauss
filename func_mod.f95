@@ -169,20 +169,4 @@ function make_first_max(AB_Logs, n) result (ABr)
     ABr = AB_Logs
 end function
 
-! function make_last_nonzero(AB, n) result (ABr)
-!     implicit none
-!     real(mp) :: AB(n,n+1), ABr(n,n+1), X(n)
-!     integer :: n, i
-
-!     do i = n, 1, -1
-!         if(AB(i,n) /= 0) then
-!             X(:) = AB(n,:)
-!             AB(n,:) = AB(i,:)
-!             AB(i,:) = X(:)
-!             exit
-!         end if
-!     end do
-!     ABr = AB
-! end function
-
 end module
