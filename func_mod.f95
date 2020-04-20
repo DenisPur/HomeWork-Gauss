@@ -112,7 +112,8 @@ subroutine make_nonzero(AB, n, s1, s2)
     if(AB(s1, s2) == 0) then
         do p = s1+1, n
             if(AB(p, s2) /= 0) then
-                call move_pq(AB, n, p, s2, s1, s2)  !exch. (p,s2) & (s1, s2) == move rows
+                call move_pq(AB, n, p, s2, s1, s2)  
+                !exch. (p,s2) & (s1, s2) == move rows
                 exit
             end if
         end do
